@@ -9,6 +9,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { RadioGroup, Radio, FormControlLabel } from '@material-ui/core';
+
 
 //css needs to be in camel case format
 const styles = {
@@ -50,6 +52,14 @@ const styles = {
       flexGrow: 1,
       paddingBottom: 0
   },
+    radioGroup: {
+      marginLeft: '5%',
+      marginRight: '5%',
+      display: 'flex',
+
+      justifyContent: 'space-between',
+    },
+
 
 };
 
@@ -108,6 +118,15 @@ console.log(productsArray)
               {x.description}
                 </Typography>
             </CardActionArea>
+
+            <RadioGroup row className={classes.radioGroup}>
+                <FormControlLabel className={classes.formlabel}  label="S" value="S" labelPlacement="top" control={<Radio color="primary" />} />
+                <FormControlLabel className={classes.formlabel} label="M" value="M" labelPlacement="top" control={<Radio color="primary" />} />
+                <FormControlLabel className={classes.formlabel} label="L" value="L" labelPlacement="top" control={<Radio color="primary" />} />
+                <FormControlLabel className={classes.formlabel} label="XL" value="XL" labelPlacement="top" control={<Radio color="primary" />} />
+            </RadioGroup>
+
+
             <CardActions className={classes.actions}>
                <Typography className={classes.price} variant="subtitle1">
                     {format(x.price)}
