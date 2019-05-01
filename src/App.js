@@ -10,6 +10,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { RadioGroup, Radio, FormControlLabel } from '@material-ui/core';
+import ProductCard from './ProductCard';
 
 
 //css needs to be in camel case format
@@ -21,46 +22,6 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'center'
   },
-  card: {
-    width: '20%',
-    margin: '3%',
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  media: {
-    marginBottom: '5%',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-  actions: {
-        justifyContent: 'space-between'
-    },
-    price: {
-       paddingLeft: 12
-   },
-   cardActionArea: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      flexGrow: 1,
-      paddingBottom: 0
-  },
-    radioGroup: {
-      marginLeft: '5%',
-      marginRight: '5%',
-      display: 'flex',
-
-      justifyContent: 'space-between',
-    },
-
-
 };
 
 // function returnTitle(x) {
@@ -92,52 +53,15 @@ const App = ( {classes} ) => {
   }, [])
 
   const productsArray = Object.values(productsObj.products);
-  const format = price => ("$" + price.toFixed(2));
 
 console.log(productsArray)
   return (
 
     <section>
       <div className={classes.allItems}>
-
-
-        {productsArray.map(x => (
-          <Card className={classes.card}>
-            <CardActionArea className={classes.cardActionArea}>
-              <CardMedia
-              component= "img"
-              className={classes.media}
-              image={`/photos/${x.sku}_1.jpg`}
-              title="Product Image"
-            />
-              <Typography gutterBottom variant="h6" color="textPrimary">
-              {x.title}
-
-              </Typography>
-              <Typography component="p" color="textSecondary">
-              {x.description}
-                </Typography>
-            </CardActionArea>
-
-            <RadioGroup row className={classes.radioGroup}>
-                <FormControlLabel className={classes.formlabel}  label="S" value="S" labelPlacement="top" control={<Radio color="primary" />} />
-                <FormControlLabel className={classes.formlabel} label="M" value="M" labelPlacement="top" control={<Radio color="primary" />} />
-                <FormControlLabel className={classes.formlabel} label="L" value="L" labelPlacement="top" control={<Radio color="primary" />} />
-                <FormControlLabel className={classes.formlabel} label="XL" value="XL" labelPlacement="top" control={<Radio color="primary" />} />
-            </RadioGroup>
-
-
-            <CardActions className={classes.actions}>
-               <Typography className={classes.price} variant="subtitle1">
-                    {format(x.price)}
-               </Typography>
-               <Button size="small">Add to Cart</Button>
-             </CardActions>
-           </Card>)
-        )}
-
-
-
+        {productsArray.map(product => (
+             <ProductCard key={product.sku} title={product.title} description={product.description} sku={product.sku} price={product.price} />
+        ))}
       </div>
     </section>
   );
