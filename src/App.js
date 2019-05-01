@@ -37,6 +37,20 @@ const styles = {
   pos: {
     marginBottom: 12,
   },
+  actions: {
+        justifyContent: 'space-between'
+    },
+    price: {
+       paddingLeft: 12
+   },
+   cardActionArea: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      flexGrow: 1,
+      paddingBottom: 0
+  },
+
 };
 
 // function returnTitle(x) {
@@ -68,31 +82,37 @@ const App = ( {classes} ) => {
   }, [])
 
   const productsArray = Object.values(productsObj.products);
+  const format = price => ("$" + price.toFixed(2));
 
+console.log(productsArray)
   return (
+
     <section>
       <div className={classes.allItems}>
 
 
         {productsArray.map(x => (
           <Card className={classes.card}>
-            <CardActionArea>
+            <CardActionArea className={classes.cardActionArea}>
               <CardMedia
               component= "img"
               className={classes.media}
               image={`/photos/${x.sku}_1.jpg`}
-              title="Contemplative Reptile"
+              title="Product Image"
             />
-              <Typography variant="h5" component="h2">
+              <Typography gutterBottom variant="h6" color="textPrimary">
               {x.title}
 
               </Typography>
-              <Typography variant="h5" component="h2">
-              {x.sku}
+              <Typography component="p" color="textSecondary">
+              {x.description}
                 </Typography>
             </CardActionArea>
-            <CardActions>
-               <Button size="small">Learn More</Button>
+            <CardActions className={classes.actions}>
+               <Typography className={classes.price} variant="subtitle1">
+                    {format(x.price)}
+               </Typography>
+               <Button size="small">Add to Cart</Button>
              </CardActions>
            </Card>)
         )}
