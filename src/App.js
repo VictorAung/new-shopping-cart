@@ -1,77 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
-import './App.css';
+// import './App.css';
+import { withStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
-// function App() {
+//css needs to be in camel case format
+const styles = {
+  allItems: {
+    display: 'flex',
+    textAlign: 'center',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  card: {
+    width: '20%',
+    margin: '3%',
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
+  media: {
+    marginBottom: '5%',
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+};
+
+// function returnTitle(x) {
 //   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-//
-// export default App;
-
-// class App extends React.Component {
-//   state = {
-//     products = []
-//   }
-//
-//   componentDidMount() {
-//     this.mounted = true;
-//
-//     fetch('/products.json').then(result => JSON.parse(result)).then(res_json => {
-//       if (!this.mounted) return;
-//
-//       const { products: products_obj } = res.json;
-//       const proucts = Object.values{products_obj};
-//
-//       this.setState({
-//         products: products
-//       });
-//
-//     });
-//   }
-//
-//
-//   componentWillUmount() {
-//     this.mounted = false;
-//   }
-//
-//   render() {
-//     const { products } = this.state;
-//
-//     return (
-//       <div className="App">
-//         {products.map{product => (
-//           <div key={product.sku}>{product.title}</div>
-//
-//         ))}</div>
-//       }
-//
-//   }
+//     <Card className={classes.card}>
+//       <Typography variant="h5" component="h2">
+//       {x.title}
+//       </Typography>
+//       <CardActions>
+//          <Button size="small">Learn More</Button>
+//        </CardActions>
+//     </Card>
+//   )
 // }
 
-function returnTitle(x) {
-  return (
-    <div>{x.title}</div>
-  )
-}
-
-const App = () => {
+const App = ( {classes} ) => {
 
   const [productsObj, setProductsObj] = useState({products: {}});
   const url = '/data/products.json';
@@ -90,11 +71,37 @@ const App = () => {
 
   return (
     <section>
-      <div className="container menu">
-        {productsArray.map(returnTitle)}
+      <div className={classes.allItems}>
+
+
+        {productsArray.map(x => (
+          <Card className={classes.card}>
+            <CardActionArea>
+              <CardMedia
+              component= "img"
+              className={classes.media}
+              image={`/photos/${x.sku}_1.jpg`}
+              title="Contemplative Reptile"
+            />
+              <Typography variant="h5" component="h2">
+              {x.title}
+
+              </Typography>
+              <Typography variant="h5" component="h2">
+              {x.sku}
+                </Typography>
+            </CardActionArea>
+            <CardActions>
+               <Button size="small">Learn More</Button>
+             </CardActions>
+           </Card>)
+        )}
+
+
+
       </div>
     </section>
   );
 };
 
-export default App;
+export default withStyles(styles)(App);
