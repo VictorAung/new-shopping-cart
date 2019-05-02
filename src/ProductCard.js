@@ -52,9 +52,10 @@ const styles = {
     },
 };
 
-const format = price => ("$" + price.toFixed(2));
 
-const ProductCard = ({ sku, title, description, classes, price }) => {
+const format = price => (price.toFixed(2));
+
+const ProductCard = ({ sku, title, description, classes, price, add: addToCart}) => {
     let [size, setSize] = useState("small");
 
     return (
@@ -85,7 +86,7 @@ const ProductCard = ({ sku, title, description, classes, price }) => {
 
       <CardActions className={classes.actions}>
          <Typography className={classes.price} variant="subtitle1">
-              {format(price)}
+              ${format(price)}
          </Typography>
          <Button size="small">Add to Cart</Button>
        </CardActions>
