@@ -79,10 +79,14 @@ const App = ( {classes} ) => {
 
   const productsArray = Object.values(productsObj.products);
 
-  const addToCart = (sku, size) => {
-   setCart([...cart, [sku, size]]);
+  const addToCart = (sku, size, timestamp) => {
+   setCart([...cart, [sku, size, timestamp]]);
    toggleCart();
    };
+
+  const removeFromCart = timestamp => {
+   setCart(cart.filter(item => item[2] !== timestamp));
+    }
 
   const toggleCart = () => {
     setCartOpen(!cartOpen);
@@ -99,8 +103,8 @@ console.log(productsArray)
     <div className={classes.app}>
       <Drawer className={classes.cart} open={cartOpen} onClose={toggleCart} anchor="right">
         <div className={classes.cart}>
-         {cart.map((item, key) =>
-           <CartCard key={key} sku={item[0]} products={productsArray} size={item[1]} />)}
+         {cart.map(item =>
+           <CartCard key={item[2]} timestamp={item[2]} sku={item[0]} products={productsArray} size={item[1]} remove={removeFromCart} />)}
           </div>
        <div className={classes.totalPrice}>
         <div className={classes.total}>

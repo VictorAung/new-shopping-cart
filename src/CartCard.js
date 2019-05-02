@@ -38,7 +38,7 @@ const styles = {
 };
 const format = price => (price.toFixed(2));
 
-const ProductListing = ({ sku, size, products, classes, remove }) => {
+const ProductListing = ({ sku, size, products, classes, remove, timestamp }) => {
     if (products.length === 0)
         return "";
 
@@ -56,7 +56,7 @@ const ProductListing = ({ sku, size, products, classes, remove }) => {
                 </Typography>
             </div>
             <div className={classes.clearDiv}>
-                <IconButton onClick={remove}>
+                <IconButton onClick={remove.bind(null, timestamp)}>
                     <ClearIcon />
                 </IconButton>
             </div>

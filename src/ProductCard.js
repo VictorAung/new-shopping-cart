@@ -55,8 +55,14 @@ const styles = {
 
 const format = price => (price.toFixed(2));
 
+
+
 const ProductCard = ({ sku, title, description, classes, price, add: addToCart}) => {
     let [size, setSize] = useState("small");
+
+    const addTimestamp = (sku, size) => {
+           addToCart(sku, size, new Date().getTime());
+       }
 
     return (
     <Card className={classes.card}>
@@ -88,7 +94,7 @@ const ProductCard = ({ sku, title, description, classes, price, add: addToCart})
          <Typography className={classes.price} variant="subtitle1">
               ${format(price)}
          </Typography>
-         <Button size="small" color="primary" onClick={addToCart.bind(null, sku, size)}>Add to Cart</Button>
+         <Button size="small" color="primary" onClick={addTimestamp.bind(null, sku, size)}>Add to Cart</Button>
        </CardActions>
      </Card>)
 };
