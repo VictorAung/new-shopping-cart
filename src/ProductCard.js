@@ -56,13 +56,23 @@ const styles = {
 const format = price => (price.toFixed(2));
 
 
+const returnInventory = (inventory, cart, size) => {
+    if (typeof(inventory) === "undefined")
+        return false;
+    const filteredCart = cart.filter(item => item[1] === size).length;
+    console.log(inventory, cart);
+    return inventory[size] - filteredCart > 0;
+}
 
-const ProductCard = ({ sku, title, description, classes, price, add: addToCart}) => {
-    let [size, setSize] = useState("small");
+const ProductCard = ({ sku, title, description, classes, price, add: addToCart, inventory, inCart}) => {
+    let [size, setSize] = useState("");
 
     const addTimestamp = (sku, size) => {
            addToCart(sku, size, new Date().getTime());
        }
+
+    if (size !== "" && !returnInventory(inventory, inCart, size))
+        setSize("");
 
     return (
     <Card className={classes.card}>
@@ -83,10 +93,10 @@ const ProductCard = ({ sku, title, description, classes, price, add: addToCart})
       </CardActionArea>
 
       <RadioGroup row className={classes.radioGroup}>
-          <FormControlLabel className={classes.formlabel}  label="S" value="S" labelPlacement="top" control={<Radio color="primary" />} />
-          <FormControlLabel className={classes.formlabel} label="M" value="M" labelPlacement="top" control={<Radio color="primary" />} />
-          <FormControlLabel className={classes.formlabel} label="L" value="L" labelPlacement="top" control={<Radio color="primary" />} />
-          <FormControlLabel className={classes.formlabel} label="XL" value="XL" labelPlacement="top" control={<Radio color="primary" />} />
+          <FormControlLabel className={classes.formlabel} disabled={!returnInventory(inventory, inCart, "S")} label="S" value="S" labelPlacement="top" control={<Radio color="primary" />} />
+          <FormControlLabel className={classes.formlabel} disabled={!returnInventory(inventory, inCart, "M")} label="M" value="M" labelPlacement="top" control={<Radio color="primary" />} />
+          <FormControlLabel className={classes.formlabel} disabled={!returnInventory(inventory, inCart, "L")} label="L" value="L" labelPlacement="top" control={<Radio color="primary" />} />
+          <FormControlLabel className={classes.formlabel} disabled={!returnInventory(inventory, inCart, "XL")} label="XL" value="XL" labelPlacement="top" control={<Radio color="primary" />} />
       </RadioGroup>
 
 
@@ -94,7 +104,8 @@ const ProductCard = ({ sku, title, description, classes, price, add: addToCart})
          <Typography className={classes.price} variant="subtitle1">
               ${format(price)}
          </Typography>
-         <Button size="small" color="primary" onClick={addTimestamp.bind(null, sku, size)}>Add to Cart</Button>
+         <Button size="small" color="primary" 
+            onClick={addTimestamp.bind(null, sku, size)}>Add to Cart</Button>
        </CardActions>
      </Card>)
 };

@@ -66,6 +66,7 @@ const App = ( {classes} ) => {
   const url = '/data/products.json';
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
+  const [inventory, setInventory] = useState({inventory: {}});
 
   useEffect(() => {
     const fetchProductsObj = async () => {
@@ -76,6 +77,12 @@ const App = ( {classes} ) => {
     }
     fetchProductsObj();
   }, [])
+
+  useEffect(() => {
+    fetch("/inventory.json").then(result => result.json()).then(res_json => {
+    setInventory(res_json);
+    });
+  }, []);
 
   const productsArray = Object.values(productsObj.products);
 
@@ -134,7 +141,10 @@ console.log(productsArray)
     <section>
       <div className={classes.allItems}>
         {productsArray.map(product => (
-             <ProductCard key={product.sku} title={product.title} description={product.description} sku={product.sku} price={product.price} add={addToCart} />
+             <ProductCard key={product.sku} title={product.title}
+             description={product.description} sku={product.sku}
+             price={product.price} add={addToCart} inventory={inventory.inventory[product.sku + ""]}
+             inCart={cart.filter(item => item[0] === product.sku)} />
         ))}
       </div>
     </section>
