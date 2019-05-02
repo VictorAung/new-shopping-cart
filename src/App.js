@@ -64,7 +64,7 @@ const App = ( {classes} ) => {
 
   const [productsObj, setProductsObj] = useState({products: {}});
   const url = '/data/products.json';
-  const [cart, setCart] = useState([[51498472915966370,"small"]]);
+  const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
@@ -79,9 +79,10 @@ const App = ( {classes} ) => {
 
   const productsArray = Object.values(productsObj.products);
 
-  const addToCart = product => {
-    setCart([...cart, product]);
-  };
+  const addToCart = (sku, size) => {
+   setCart([...cart, [sku, size]]);
+   toggleCart();
+   };
 
   const toggleCart = () => {
     setCartOpen(!cartOpen);
@@ -91,15 +92,15 @@ const App = ( {classes} ) => {
 
 const totalPrice = productsArray.length === 0
   ? 0
-  : cart.map(sku => productsArray.filter(product => product.sku === sku[0])[0].price).reduce((t, n) => (t + n));
+  : cart.map(sku => productsArray.filter(product => product.sku === sku[0])[0].price).reduce((t, n) => (t + n), 0);
 
 console.log(productsArray)
   return (
     <div className={classes.app}>
-      <Drawer className={classes.cart} open={cartOpen} onClose={setCartOpen.bind(null, false)} anchor="right">
+      <Drawer className={classes.cart} open={cartOpen} onClose={toggleCart} anchor="right">
         <div className={classes.cart}>
-         {cart.map(item =>
-           <CartCard sku={item[0]} products={productsArray} size={item[1]} />)}
+         {cart.map((item, key) =>
+           <CartCard key={key} sku={item[0]} products={productsArray} size={item[1]} />)}
           </div>
        <div className={classes.totalPrice}>
         <div className={classes.total}>
